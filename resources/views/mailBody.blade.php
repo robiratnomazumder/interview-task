@@ -1,0 +1,2 @@
+Hi,
+    {{ $message_text }}
