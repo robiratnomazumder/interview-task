@@ -22,6 +22,6 @@ class MailSendJob implements ShouldQueue
 
     public function handle()
     {
-        Mail::to('robi.r.mazumder@gmail.com')->later(now()->seconds(30), new ConfirmShipped());
+        Mail::to('admin@akaarit.com')->later(now()->seconds(30), new ConfirmShipped());
     }
 }

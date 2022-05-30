@@ -26,24 +26,21 @@ class CustomerController extends Controller
     public function import(Request $request)
     {
         if($request->has('import_csv')){
-//            $csv    = file($request->import_csv);
-//            $chunks = array_chunk($csv,1000);
-//            $header = [];
-//            $batch  = Bus::batch([])->dispatch();
-//
-//            foreach ($chunks as $key => $chunk) {
-//                $data = array_map('str_getcsv', $chunk);
-//                if($key == 0){
-//                    $header = $data[0];
-//                    unset($data[0]);
-//                }
-//                $batch->add(new CustomerCsvProcess($data, $header));
-//            }
+            $csv    = file($request->import_csv);
+            $chunks = array_chunk($csv,1000);
+            $header = [];
+            $batch  = Bus::batch([])->dispatch();
 
-
+            foreach ($chunks as $key => $chunk) {
+                $data = array_map('str_getcsv', $chunk);
+                if($key == 0){
+                    $header = $data[0];
+                    unset($data[0]);
+                }
+                $batch->add(new CustomerCsvProcess($data, $header));
+            }
             dispatch(new MailSendJob());
-
-            //return $batch;
+            return $batch;
         }
         return back();
     }
@@ -74,9 +71,6 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
-//        Mail::send(['text'=>'mailBody'],$mail,function($message) use ($request) {
-//            $message->to('admin@akaarit.com')->subject('Successful CSV Upload Confirmation');
-//            $message->from('task@akaarit.com','Mail');
-//        });
+
     }
 }
